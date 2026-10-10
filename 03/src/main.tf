@@ -1,9 +1,17 @@
-resource "yandex_vpc_network" "develop" {
-  name = var.vpc_name
+data "yandex_vpc_network" "develop" {
+  name = "develop"
 }
-resource "yandex_vpc_subnet" "develop" {
-  name           = var.vpc_name
-  zone           = var.default_zone
-  network_id     = yandex_vpc_network.develop.id
-  v4_cidr_blocks = var.default_cidr
+
+resource "yandex_vpc_subnet" "develop_a" {
+  name           = "develop-a"
+  zone           = "ru-central1-a"
+  network_id     = data.yandex_vpc_network.develop.id
+  v4_cidr_blocks = ["10.0.1.0/24"]
+}
+
+resource "yandex_vpc_subnet" "develop_d" {
+  name           = "develop-d"
+  zone           = "ru-central1-d"
+  network_id     = data.yandex_vpc_network.develop.id
+  v4_cidr_blocks = ["10.0.3.0/24"]
 }
